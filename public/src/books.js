@@ -12,13 +12,16 @@ function partitionBooksByBorrowedStatus(books) {
   return [borrowedBooks, returnedBooks];
 }
 
+// the helper function findAccountById, the same as in accounts.js
+function findAccountById(accounts, id) {
+    return accounts.find(account => account.id === id);
+}
+// the main function getBorrowersForBook
 function getBorrowersForBook(book, accounts) {
     const { borrows } = book;
-    function findAccountById(id) {
-        return accounts.find(account => account.id === id);
-    }
+    // the helper function to find the account by ID
     const borrowers = borrows.reduce((acc, borrow) => {
-        const account = findAccountById(borrow.id);
+        const account = findAccountById(accounts, borrow.id);
         if (account) {
             const borrowerInfo = {
                 ...account,
@@ -30,6 +33,7 @@ function getBorrowersForBook(book, accounts) {
     }, []);
     return borrowers.slice(0, 10);
 }
+
 
 module.exports = {
   findAuthorById,
